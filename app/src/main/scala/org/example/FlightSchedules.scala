@@ -1,7 +1,7 @@
 package org.example
 
 class FlightSchedules {
-  private def schedules(flights: List[Vuelo], airports: List[Aeropuerto])(origen: String, destination: String): List[Itinerario] = {
+  def schedules(flights: List[Vuelo], airports: List[Aeropuerto])(origen: String, destination: String): List[Itinerario] = {
     def findSchedules(origen: String, destination: String, visited: Set[String]): List[List[Vuelo]] = {
       if (origen == destination) List(List())
       else {

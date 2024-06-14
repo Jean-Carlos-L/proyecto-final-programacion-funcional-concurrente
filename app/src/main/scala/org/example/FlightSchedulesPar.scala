@@ -4,7 +4,7 @@ import common._
 class FlightSchedulesPar {
   private val maxDepthGlobal = 4
 
-  private def schedules(flights: List[Vuelo], airports: List[Aeropuerto], maxDepth: Int)(origen: String, destination: String): List[Itinerario] = {
+  def schedules(flights: List[Vuelo], airports: List[Aeropuerto], maxDepth: Int)(origen: String, destination: String): List[Itinerario] = {
     def findSchedules(origen: String, destination: String, visited: Set[String], depth: Int): List[List[Vuelo]] = {
       if (origen == destination) List(List())
       else {
@@ -24,13 +24,17 @@ class FlightSchedulesPar {
       }
     }
 
-    findSchedules(origen, destination, Set(), 0).map(flights => {
-      val flightTotal = getFlightTotal(airports)(flights)
-      val scales = flights.map(flight => flight.Scales).sum + flights.size - 1
-      val flightTime = getFlightTime(airports)(flights)
+    val foundSchedules = findSchedules(origen, destination, Set(), 0)
 
-      Itinerario(flights, flightTotal, scales, flightTime)
-    })
+    foundSchedules.map { flights =>
+      task {
+        val flightTotal = getFlightTotal(airports)(flights)
+        val scales = flights.map(flight => flight.Scales).sum + flights.size - 1
+        val flightTime = getFlightTime(airports)(flights)
+
+        Itinerario(flights, flightTotal, scales, flightTime)
+      }
+    }.map(_.join())
   }
 
   def schedulesTime(flights: List[Vuelo], airports: List[Aeropuerto])(origen: String, destination: String): List[Itinerario] = {
