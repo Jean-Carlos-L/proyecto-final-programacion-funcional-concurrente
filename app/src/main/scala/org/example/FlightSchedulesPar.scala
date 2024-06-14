@@ -2,7 +2,7 @@ package org.example
 import common._
 
 class FlightSchedulesPar {
-  private val maxDepthGlobal = 4
+  private val maxDepthGlobal = 4 // es el maximo de escalas que se pueden hacer
 
   def schedules(flights: List[Vuelo], airports: List[Aeropuerto], maxDepth: Int)(origen: String, destination: String): List[Itinerario] = {
     def findSchedules(origen: String, destination: String, visited: Set[String], depth: Int): List[List[Vuelo]] = {
@@ -11,7 +11,7 @@ class FlightSchedulesPar {
         val outboundFlights = flights.filter(f => f.AirportOrigin == origen && !visited.contains(f.AirportDestination))
         if (depth >= maxDepth) {
           outboundFlights.flatMap(flight => {
-            findSchedules(flight.AirportDestination, destination, visited + origen, depth + 1).map(flight :: _)
+            findSchedules(flight.AirportDestination, destination, visited + origen, depth + 1).map(flight :: _) // por cada vuelo que sale se aumenta la profundidad
           })
         } else {
           val scheduleTasks = outboundFlights.map { flight =>
