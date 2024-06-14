@@ -48,3 +48,21 @@ application {
     // Define the main class for the application.
     mainClass = 'org.example.App'
 }
+
+tasks.withType(ScalaCompile) {
+    scalaCompileOptions.additionalParameters = [
+            "-J-Xmx2g",
+    ]
+}
+
+tasks.withType(JavaExec) {
+    jvmArgs = ["-Xmx2g"]
+}
+
+tasks.withType(ScalaCompile) {
+    scalaCompileOptions.additionalParameters += ["-J-Xss8m","-J-Xmx2g"]
+}
+
+tasks.withType(JavaExec) {
+    jvmArgs += ["-Xss8m","-Xmx2g"]
+}
