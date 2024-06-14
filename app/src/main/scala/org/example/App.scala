@@ -3,10 +3,16 @@
  */
 package org.example
 
+case class Aeropuerto(Cod: String, X: Int, Y: Int, GMT: Double)
+
+case class Vuelo(Airline: String, FlightNumber: Int, AirportOrigin: String, HS: Int, MS: Int, AirportDestination: String, HL: Int, ML: Int, Scales: Int)
+
+case class Itinerario(vuelos: List[Vuelo], tiempoTotal: Int, escalas: Int, tiempoVuelo: Int)
+
+
 object App {
   def main(args: Array[String]): Unit = {
-    println(greeting())
+    val benchmark = new ScheduleBenchmark()
+    benchmark.run()
   }
-
-  def greeting(): String = "Hello, world!"
 }

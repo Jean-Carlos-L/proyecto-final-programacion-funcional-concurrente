@@ -33,6 +33,8 @@ dependencies {
 
     // Need scala-xml at test runtime
     testRuntimeOnly libs.scala.xml.v2.v13
+
+    implementation("com.storm-enroute:scalameter-core_2.13:0.21")
 }
 
 // Apply a specific Java toolchain to ease working on different environments.
