@@ -21,9 +21,9 @@ class FlightSchedules {
     })
   }
 
-  def schedulesTime(flights: List[Vuelo], airports: List[Aeropuerto])(origen: String, destination: String): List[Itinerario] = {
+  def schedulesTime(flights: List[Vuelo], airports: List[Aeropuerto])(origen: String, destination: String): List[List[Vuelo]] = {
     val allSchedules = schedules(flights, airports)(origen, destination)
-    allSchedules.sortBy(_.tiempoTotal).take(3) //Obtener los 3 primeros itinerarios con menor tiempo total
+    allSchedules.sortBy(_.tiempoTotal).take(3).map(_.vuelos)
   }
 
   def schedulesScales(flights: List[Vuelo], airports: List[Aeropuerto])(origen: String, destination: String): List[Itinerario] = {

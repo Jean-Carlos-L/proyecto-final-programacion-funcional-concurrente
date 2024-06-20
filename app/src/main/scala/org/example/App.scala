@@ -13,7 +13,11 @@ case class Itinerario(vuelos: List[Vuelo], tiempoTotal: Int, escalas: Int, tiemp
 
 object App {
   def main(args: Array[String]): Unit = {
-    val benchmark = new ScheduleBenchmark()
-    benchmark.run(benchmark.benchmarkSchedulesOutputTimeSeq)(benchmark.benchmarkSchedulesOutputTimePar)
+    /*val benchmark = new ScheduleBenchmark()
+    benchmark.run(benchmark.benchmarkSchedulesOutputTimeSeq)(benchmark.benchmarkSchedulesOutputTimePar)*/
+
+    val flightSchedules = new FlightSchedules()
+    val schedules = flightSchedules.schedulesTime(vuelosCurso, aeropuertosCurso)("CLO", "SVO")
+    println(schedules)
   }
 }
