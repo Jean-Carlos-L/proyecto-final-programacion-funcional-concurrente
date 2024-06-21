@@ -21,19 +21,25 @@ class FlightSchedules {
     })
   }
 
+  // función auxiliar de Shedule para mapear los vuelos que salen del aeropuerto origen y llegan al aeropuerto destino
+  def scheduleAux(flights: List[Vuelo], airports: List[Aeropuerto])(origen: String, destination: String): List[List[Vuelo]] = {
+    val allSchedules = schedules(flights, airports)(origen, destination)
+    allSchedules.map(_.vuelos)
+  }
+
   def schedulesTime(flights: List[Vuelo], airports: List[Aeropuerto])(origen: String, destination: String): List[List[Vuelo]] = {
     val allSchedules = schedules(flights, airports)(origen, destination)
     allSchedules.sortBy(_.tiempoTotal).take(3).map(_.vuelos)
   }
 
-  def schedulesScales(flights: List[Vuelo], airports: List[Aeropuerto])(origen: String, destination: String): List[Itinerario] = {
+  def schedulesScales(flights: List[Vuelo], airports: List[Aeropuerto])(origen: String, destination: String): List[List[Vuelo]]  = {
     val allSchedules = schedules(flights, airports)(origen, destination)
-    allSchedules.sortBy(_.escalas).take(3) // obtener los 3 primeros itinerarios con menor cantidad de escalas
+    allSchedules.sortBy(_.escalas).take(3).map(_.vuelos) // obtener los 3 primeros itinerarios con menor cantidad de escalas y con map extraer los vuelos
   }
 
-  def schedulesTimeLand(flights: List[Vuelo], airports: List[Aeropuerto])(origen: String, destination: String): List[Itinerario] = {
+  def schedulesTimeLand(flights: List[Vuelo], airports: List[Aeropuerto])(origen: String, destination: String): List[List[Vuelo]]  = {
     val allSchedules = schedules(flights, airports)(origen, destination)
-    allSchedules.sortBy(_.tiempoVuelo).take(3) // obtener los 3 primeros itinerarios con menor tiempo de vuelo
+    allSchedules.sortBy(_.tiempoVuelo).take(3).map(_.vuelos) // obtener los 3 primeros itinerarios con menor tiempo de vuelo
   }
 
   // Obtiene los itinerarios que llegan al aeropuerto destino antes de la hora de la cita
@@ -53,7 +59,13 @@ class FlightSchedules {
     else possibleSchedules.sortBy { itinerary => // ordenamos los itinerarios por tiempo de llegada
       val lastFlight = itinerary.vuelos.last
       (lastFlight.HL, lastFlight.ML)
-    }(Ordering[(Int, Int)].reverse).take(1) // obtenemos el itinerario con la hora de llegada más cercana a la hora de la cita
+    }(Ordering[(Int, Int)].reverse).take(1)// obtenemos el itinerario con la hora de llegada más cercana a la hora de la cita
+  }
+
+  // función auxiliar para obtener los iteneraios que llegan al aeropuerto destino antes de la hora de la cita en formato de vuelos
+  def schedulesOutputTimeAux(flights: List[Vuelo], airports: List[Aeropuerto])(origen: String, destination: String, hour: Int, minute: Int): List[List[Vuelo]] = {
+    val allSchedules = schedulesOutputTime(flights, airports)(origen, destination, hour, minute)
+    allSchedules.map(_.vuelos)
   }
 
   // Obtiene el tiempo total de vuelo de una lista de vuelos

@@ -8,14 +8,14 @@ class ScheduleBenchmark {
   private val flightSchedules = new FlightSchedules()
   private val flightSchedulesPar = new FlightSchedulesPar()
 
-  private val origen = "PHX"
-  private val destination = "BOS"
+  private val origen = "DFW"
+  private val destination = "ATL"
 
   val airports: List[Aeropuerto] = aeropuertosCurso
   //val flights: List[Vuelo] = vuelosA1
-  //val flights: List[Vuelo] = vuelosB1
+  val flights: List[Vuelo] = vuelosB1
   //val flights: List[Vuelo] = vuelosC1
-  val flights: List[Vuelo] = vuelosD1
+  //val flights: List[Vuelo] = vuelosD1
 
   def benchmarkSchedulesSeq(): Double = {
     val time = withWarmer(new Warmer.Default) measure {
