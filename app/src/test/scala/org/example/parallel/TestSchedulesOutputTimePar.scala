@@ -10,9 +10,9 @@ import org.scalatestplus.junit.JUnitRunner
 class TestSchedulesOutputTimePar extends AnyFunSuite{
 
   val itoObj = new FlightSchedulesPar()
-  val itsCurso: (String, String, Int, Int) => List[List[Vuelo]] = itoObj.schedulesOutputTimeAux(vuelosCurso , aeropuertosCurso)
-  val itsCurso15: (String, String, Int, Int) => List[List[Vuelo]] = itoObj.schedulesOutputTimeAux(vuelosA1, aeropuertos)
-  val itsCurso40: (String, String, Int, Int) => List[List[Vuelo]] = itoObj.schedulesOutputTimeAux(vuelosB1, aeropuertos)
+  val itsCurso: (String, String, Int, Int) => List[List[Vuelo]] = itoObj.schedulesOutputTime(vuelosCurso , aeropuertosCurso)
+  val itsCurso15: (String, String, Int, Int) => List[List[Vuelo]] = itoObj.schedulesOutputTime(vuelosA1, aeropuertos)
+  val itsCurso40: (String, String, Int, Int) => List[List[Vuelo]] = itoObj.schedulesOutputTime(vuelosB1, aeropuertos)
 
   test("test1") {
     val its1 = itsCurso("CTG", "PTY", 11, 40)

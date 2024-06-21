@@ -21,10 +21,8 @@ class FlightSchedules {
     })
   }
 
-  // función auxiliar de Shedule para mapear los vuelos que salen del aeropuerto origen y llegan al aeropuerto destino
-  def scheduleAux(flights: List[Vuelo], airports: List[Aeropuerto])(origen: String, destination: String): List[List[Vuelo]] = {
-    val allSchedules = schedules(flights, airports)(origen, destination)
-    allSchedules.map(_.vuelos)
+  def scheduleAux(schedules: List[Itinerario]): List[List[Vuelo]] = {
+    schedules.map(_.vuelos)
   }
 
   def schedulesTime(flights: List[Vuelo], airports: List[Aeropuerto])(origen: String, destination: String): List[List[Vuelo]] = {
@@ -43,7 +41,7 @@ class FlightSchedules {
   }
 
   // Obtiene los itinerarios que llegan al aeropuerto destino antes de la hora de la cita
-  def schedulesOutputTime(flights: List[Vuelo], airports: List[Aeropuerto])(origen: String, destination: String, hour: Int, minute: Int): List[Itinerario] = {
+  def schedulesOutputTime(flights: List[Vuelo], airports: List[Aeropuerto])(origen: String, destination: String, hour: Int, minute: Int): List[List[Vuelo]] = {
     val allSchedules = schedules(flights, airports)(origen, destination)
     val (_, _, appointmentTime) = convertToHourUTC(hour, minute, getGMT(airports)(destination))
 
@@ -59,13 +57,7 @@ class FlightSchedules {
     else possibleSchedules.sortBy { itinerary => // ordenamos los itinerarios por tiempo de llegada
       val lastFlight = itinerary.vuelos.last
       (lastFlight.HL, lastFlight.ML)
-    }(Ordering[(Int, Int)].reverse).take(1)// obtenemos el itinerario con la hora de llegada más cercana a la hora de la cita
-  }
-
-  // función auxiliar para obtener los iteneraios que llegan al aeropuerto destino antes de la hora de la cita en formato de vuelos
-  def schedulesOutputTimeAux(flights: List[Vuelo], airports: List[Aeropuerto])(origen: String, destination: String, hour: Int, minute: Int): List[List[Vuelo]] = {
-    val allSchedules = schedulesOutputTime(flights, airports)(origen, destination, hour, minute)
-    allSchedules.map(_.vuelos)
+    }(Ordering[(Int, Int)].reverse).take(1).map(_.vuelos)
   }
 
   // Obtiene el tiempo total de vuelo de una lista de vuelos
